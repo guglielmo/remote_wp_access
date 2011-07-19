@@ -21,6 +21,7 @@ blog.newCategory(name='Openparlamento', slug='openparlamento', description='Post
 posts_sql = "select * from sf_blog_post where is_published=1 order by published_at, created_at asc"
 cursor.execute(posts_sql)
 p_result_set = cursor.fetchall()
+
 for p in p_result_set:
   print "%s, %s, %s" % (p['id'], p["title"], p["published_at"])
   
@@ -54,9 +55,10 @@ for p in p_result_set:
   for c in c_result_set:
     print "  %s, %s, %s (%s)" % (c["author_name"], c["author_email"], c["created_at"], c['sf_blog_post_id'])
     try:
-      blog.newComment(post_id, content=c['content'], 
-                      author=c['author_name'], author_email=c['author_email'],
-                      date_created_gmt=c['created_at'])
+      comment_id = blog.newComment(post_id, content=c['content'], 
+                                   author=c['author_name'], author_email=c['author_email'])
+
+      blog.editComment(comment_id, status='approve', date_created_gmt=c['created_at'])
     except:
       print "Unexpected error:", sys.exc_info()[0]
 

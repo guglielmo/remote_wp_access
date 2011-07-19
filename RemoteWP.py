@@ -39,8 +39,8 @@ class RemoteWP:
     def newComment(self, postid, comment_parent_id=0, blogid=0, content='Comment content', author='Remote author', **kw):
         return self.server.wp.newComment(blogid, '', '', postid, dict(kw, comment_parent=comment_parent_id, content=content, author=author))
 
-    def editComment(self, id, blogid=0, content='Comment content', **kw):
-        return self.server.wp.editComment(blogid, self.usr, self.passwd, id, dict(kw, content=content))
+    def editComment(self, id, blogid=0, **kw):
+        return self.server.wp.editComment(blogid, self.usr, self.passwd, id, dict(kw))
         
     def getComments(self, postid, blogid='', **kw):
         return self.server.wp.getComments(blogid, self.usr, self.passwd, dict(kw, post_id=postid))
